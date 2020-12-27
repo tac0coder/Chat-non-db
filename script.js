@@ -1,6 +1,6 @@
 var text=document.getElementById('chat_input')
 
-
+var db = {}
 
 var send=document.getElementById('send')
 var chat = document.getElementById('chat')
@@ -18,12 +18,12 @@ let name=prompt("Username?")
 function postDoc(data) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
+    /*if (this.readyState == 4 && this.status == 200) {
       document.getElementById("demo").innerHTML =
       this.responseText;
     }
-  };
-  xhttp.open("POST", "ajax_info.txt", true);
+  };*/
+  xhttp.open("POST", "chat.json", true);
   xhttp.send(data);
 }
 var ampm = function(){
