@@ -63,4 +63,4 @@ reload = function(){
 
 }
 
-setInterval(reload,300)
+/*setInterval(reload,300)*/
