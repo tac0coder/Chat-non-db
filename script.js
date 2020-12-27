@@ -17,8 +17,8 @@ let name=prompt("Username?")
 }*/
 function postDoc(data) {
   var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    /*if (this.readyState == 4 && this.status == 200) {
+  /*xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
       document.getElementById("demo").innerHTML =
       this.responseText;
     }
@@ -48,12 +48,19 @@ send.onclick = function(){
   msgs+=1
 }
 reload = function(){
+
   chat.innerHTML=''
+  try {
+    
+  
   fetch("chat.json").then(response => response.json()).then(function (result) {
   for(i in result){
     chat.innerHTML+= '<p>'+i['msg']+i['time']+['name']+"</p></br>"
   }
+  })}catch (error){
+    console.log(error)
+  }
 
-})
 }
+
 setInterval(reload,300)
