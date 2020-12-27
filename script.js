@@ -1,9 +1,6 @@
 var text=document.getElementById('chat_input')
-var db = new PouchDB('chat')
-db.changes({
-  since: 'now',
-  live: true
-}).on('change', reload);
+
+
 
 var send=document.getElementById('send')
 var chat = document.getElementById('chat')
@@ -18,7 +15,17 @@ let name=prompt("Username?")
 
   }
 }*/
-
+function postDoc(data) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("POST", "ajax_info.txt", true);
+  xhttp.send(data);
+}
 var ampm = function(){
   var date= new Date()
 var hours = date.getHours();
@@ -35,22 +42,18 @@ mid='pm';
 send.onclick = function(){
   var date = new Date
 
-  db.put({'id':`msg${msgs}`,"msg":text.value+'\xa0'.repeat(20),"time":ampm()[0].toString()+':'+(date.getMinutes()<10?'0'+date.getMinutes().toString():date.getMinutes().toString())+ampm()[1].toString(),"name":'\xa0'.repeat(5)+name})
+  /*add to json*/postDoc({'id':`msg${msgs}`,"msg":text.value+'\xa0'.repeat(20),"time":ampm()[0].toString()+':'+(date.getMinutes()<10?'0'+date.getMinutes().toString():date.getMinutes().toString())+ampm()[1].toString(),"name":'\xa0'.repeat(5)+name})
   
   text.value=''
   msgs+=1
 }
 reload = function(){
   chat.innerHTML=''
-  db.allDocs({
-  include_docs: true,
-  attachments: true,
-  startkey:'msg'
-}).then(function (result) {
+  fetch("chat.json").then(response => response.json()).then(function (result) {
   for(i in result){
     chat.innerHTML+= '<p>'+i['msg']+i['time']+['name']+"</p></br>"
   }
 
 })
 }
-
+setInterval(reload,300)
